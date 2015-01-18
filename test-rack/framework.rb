@@ -15,7 +15,9 @@ class Framework
 			layout_path = options.delete(:layout_path) || DEFAULT_LAYOUT
 			locals_hash = options.delete(:locals) || {}
 			template_path = File.join("views", "#{view_path}.erb")
+			# 先定義內部template
 			view_buffer = Tilt::ERBTemplate.new(template_path).render(self, locals_hash)
+			# 從外部開始render，再將content render到內部給yield執行
 			Tilt::ERBTemplate.new(layout_path).render(self, locals_hash) do
 				view_buffer
 			end
