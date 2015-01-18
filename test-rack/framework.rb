@@ -2,6 +2,14 @@ class Framework
 	@@routes = {}
 
 	class << self
+		def params
+			@@params
+		end
+
+		def request
+			@@request
+		end
+
 		def get(path, &block)
 			# 定義get時，@@routes已經定義完成，可以依照request來回傳
 			@@routes[path] = block		
@@ -27,6 +35,8 @@ class Framework
 
 		# rack最先執行的method
 		def call env
+			@@request = Rack::Request.new env
+			@@params = @@request.params
 			[
 				200,
 				{"Content-Type" => "text/html"},

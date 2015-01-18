@@ -1,3 +1,6 @@
+require 'bundler'
+Bundle.setup
+Bundle.require
 require './framework.rb'
 
 class MyApp < Framework
@@ -10,7 +13,8 @@ class MyApp < Framework
 	end
 
 	get /\/books\/(\d+?)$/ do |id|
-		"This is book #{id}"
+		"#{@@request.inspect}"
+		# "This is book #{id}"
 	end
 
 	# 是否定義routing 有前後順序問題？
