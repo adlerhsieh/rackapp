@@ -10,6 +10,13 @@ class Framework
 			@@request
 		end
 
+
+		def render view_path, locals_hash={}
+			template_path = File.join("views", "#{view_path}.erb")
+			# view_buffer = Tilt::ERBTemplate.new('views/layout.erb').render(self, locals_hash)
+			Tilt::ERBTemplate.new(template_path).render(self, locals_hash)
+		end
+
 		def get(path, &block)
 			# 定義get時，@@routes已經定義完成，可以依照request來回傳
 			@@routes[path] = block		
