@@ -13,7 +13,7 @@ class MyApp < Framework
 	end
 
 	get /\/books\/(\d+?)$/ do |id|
-		render 'show.html', id: id
+		render 'show.html', layout_path: 'views/layout_2.erb', locals: {id: id}
 	end
 
 	# 是否定義routing 有前後順序問題？

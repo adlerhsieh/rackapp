@@ -10,10 +10,13 @@ class Framework
 			@@request
 		end
 
-		def render view_path, locals_hash={}
+		DEFAULT_LAYOUT = "views/layout.erb"
+		def render view_path, options={}
+			layout_path = options.delete(:layout_path) || DEFAULT_LAYOUT
+			locals_hash = options.delete(:locals) || {}
 			template_path = File.join("views", "#{view_path}.erb")
 			view_buffer = Tilt::ERBTemplate.new(template_path).render(self, locals_hash)
-			Tilt::ERBTemplate.new('views/layout.erb').render(self, locals_hash) do
+			Tilt::ERBTemplate.new(layout_path).render(self, locals_hash) do
 				view_buffer
 			end
 			# Tilt::ERBTemplate.new(template_path).render(self, locals_hash)
