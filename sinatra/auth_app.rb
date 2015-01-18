@@ -43,24 +43,20 @@ class AuthApp < Sinatra::Base
 		erb :"index.html"
 	end
 
-	# json格式要寫在general的上面
-	get "/imgs/:id.json" do |imgid|
-		content_type 'text/json'
-		Images.each do |img|
-			if img[:id].to_i == imgid.to_i
-				return img.to_json
-			end
-		end 		
-	end
-
-	get '/imgs/:id' do
+	get '/imgs/:id.?:format?' do |imgid, format|
 		Images.each do |img|
 			if img[:id] == params[:id].to_i
 				@img = img
 				break
 			end
 		end 
-		erb :"show.html"
+
+		if format == 'json'
+			content_type 'text/json'
+			return @img.to_json
+		else
+			erb :"show.html"
+		end
 	end
 
 	get "/login" do
