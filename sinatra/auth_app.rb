@@ -2,10 +2,6 @@ class AuthApp < Sinatra::Base
 	enable :sessions
 	configure(:development) { set :session_secret, "something" }
 
-	get '/' do
-		"This is Sinatra root"
-	end
-
 	Users = [
 		{
 			email: "nkj20932@hotmail.com",
@@ -24,8 +20,18 @@ class AuthApp < Sinatra::Base
 		{id: 3, url: 'http://i.imgur.com/tWPf0go.jpg', title: "I think my Chinese food is undercooked"}
 	]
 
+	helpers do
+		def current_user
+			@current_user 
+		end
+	end
+
 	before do
 		@current_user = session[:current_user]
+	end
+
+	get '/' do
+		"This is Sinatra root"
 	end
 
 	before '/imgs' do
